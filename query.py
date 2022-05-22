@@ -7,7 +7,7 @@ from math import log
 # nltk.download('punkt')
 
 
-def main(query, dataFolder="Data", FILE_MATCH=1, SENT_MATCH=1):
+def answerQuery(query, dataFolder="Data", FILE_MATCH=1, SENT_MATCH=1):
     """ Given 'dataFolder' (contains files with information about space topics),
     'query' (the question the user has asked), 'FILE_MATCH' (the number of files
     to find sentences from), and 'SENT_MATCH' (the number of sentences used to
