@@ -2,7 +2,7 @@ import pygame
 import math
 
 pygame.init()
-WIDTH = HEIGHT = 1000  # pixels
+WIDTH = HEIGHT = 800  # pixels
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 WHITE = (255, 255, 255)
 BLACK = (000, 000, 000)
@@ -14,12 +14,18 @@ class Planet:
     G = 6.67428e-11  # gravitational const
     TIME_INC = 86400  # one day in secs
     AU = 149.6e9  # in meters
-    SCALE = 100 / AU  # scale an au to 100 pixels
+    SCALE = 200 / AU  # convert AU to pixels
+    PLANET_SCALE = 4000
+    SUN_SCALE = 60
 
     def __init__(self, x, y, img, dia, mass, isSun, xVel=0, yVel=0):
         self.x = x * self.AU
         self.y = y * self.AU
-        dim = dia * self.SCALE * 100  # planets are 100x to scale
+        dim = dia * self.SCALE
+        if not isSun:  # scale up planet size
+            dim = dim * self.PLANET_SCALE
+        else:  # scale up the size of the sun (less)
+            dim = dim * self.SUN_SCALE
         self.img = pygame.transform.scale(img, (dim, dim))
         self.mass = mass
         self.isSun = isSun
@@ -32,9 +38,10 @@ class Planet:
         y = self.y * self.SCALE + HEIGHT / 2 - self.img.get_height() // 2
         SCREEN.blit(self.img, (x, y))
         if not self.isSun:
-            distance_text = FONT.render(f"{self.sunDist/1000}km", 1, WHITE)
+            distance_text = FONT.render(
+                "{:e}km".format(self.sunDist), 1, WHITE)
             SCREEN.blit(distance_text, (x - distance_text.get_width() /
-                        2, y - distance_text.get_height()/2))
+                        2,  y - distance_text.get_height()/2 - 10))
 
     def gravity(self, plnt):
         xDist = plnt.x - self.x
@@ -71,7 +78,7 @@ planets.append(Planet(0, 0.723, pygame.image.load(
     "assets/venus.jpeg"), 1.2104e7, 4.8685e24, False, 35020))
 planets.append(Planet(0, 1.000, pygame.image.load(
     "assets/earth.jpeg"), 1.2742e7, 5.9742e24, False, 29783))
-planets.append(Planet(1.524, Planet.AU, pygame.image.load(
+planets.append(Planet(0, 1.524, pygame.image.load(
     "assets/mars.jpeg"), 6.779e6, 6.39e23, False, 24077))
 
 # run the simulation
