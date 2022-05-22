@@ -3,6 +3,7 @@ import os
 import string
 from math import log
 
+# this requires nltk to be installed: "pip install nltk"
 nltk.download('stopwords')
 nltk.download('punkt')
 
