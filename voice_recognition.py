@@ -8,6 +8,7 @@ correct = True
 r = sr.Recognizer()
 
 while correct:
+    text = ''
     with sr.Microphone() as source:
         # listen for 1 second to calibrate the energy threshold for ambient noise levels
         r.adjust_for_ambient_noise(source)
@@ -17,17 +18,14 @@ while correct:
         print("Listening...")
         audio_data = r.listen(source)
         # convert speech to text
-        text = r.recognize_google(audio_data)
+        try:
+            text = r.recognize_google(audio_data)
+            print("You said: " + text)
+            is_correct = input('Is this correct? (y/n): ')
+            if is_correct == 'y':
+                correct = False
+        except:
+            print("Sorry, I didn't get that")
 
-    try:
-        print("You said: " + text)
-        is_correct = input('Is this correct? (y/n): ')
-        if is_correct == 'y':
-            correct = False
-        else:
-            continue
-    except sr.UnknownValueError:
-        print("Sorry, I didn't get that")
-        
-    except sr.RequestError as e:
-        print("Could not request results from Google Speech Recognition service; {0}".format(e))
+    # except sr.RequestError as e:
+        #print("Could not request results from Google Speech Recognition service; {0}".format(e))
