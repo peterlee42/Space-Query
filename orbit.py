@@ -14,7 +14,7 @@ class Planet:
     G = 6.67428e-11  # gravitational const
     TIME_INC = 86400  # one day in secs
     AU = 149.6e9  # in meters
-    SCALE = 200 / AU  # convert AU to pixels
+    SCALE = 230 / AU  # convert AU to pixels
     PLANET_SCALE = 4000
     SUN_SCALE = 60
 
@@ -39,7 +39,7 @@ class Planet:
         SCREEN.blit(self.img, (x, y))
         if not self.isSun:
             distance_text = FONT.render(
-                "{:e}km".format(self.sunDist), 1, WHITE)
+                "{:.3e}km".format(self.sunDist), 1, WHITE)
             SCREEN.blit(distance_text, (x - distance_text.get_width() /
                         2,  y - distance_text.get_height()/2 - 10))
 
@@ -71,7 +71,7 @@ class Planet:
 # initialize all the planets
 planets = []
 planets.append(Planet(0, 0, pygame.image.load(
-    "assets/sun.jpeg"), 1.3927e9, 1.98892e30, True, 0))
+    "assets/sun.png"), 1.3927e9, 1.98892e30, True, 0))
 planets.append(Planet(0, 0.387, pygame.image.load(
     "assets/mercury.jpeg"), 4.8794e6, 3.3e23, False, 47400))
 planets.append(Planet(0, 0.723, pygame.image.load(
