@@ -1,7 +1,7 @@
 import pygame
 import sys
 from button import Button
-from query import answerQuery as aq
+from query import q
 
 pygame.init()
 
@@ -108,7 +108,7 @@ def main():
                         else:
                             userText += event.unicode
                     if event.key == pygame.K_RETURN:
-                        print(aq(userText))
+                        print(q.main(userText))
 
         pygame.display.update()
 
