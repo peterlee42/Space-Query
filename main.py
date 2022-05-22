@@ -87,20 +87,16 @@ def main():
                             userText = userText[:-1]
                             if previousLetters > 0:
                                 previousLetters -= 1
-                        elif event.key == pygame.K_RETURN:
-                            print(userText)
                         else:
                             previousLetters += 1
                             userText += event.unicode
                     else:
                         if event.key == pygame.K_BACKSPACE:
                             userText = userText[:-1]
-                        elif event.key == pygame.K_RETURN:
-                            print(userText)
                         else:
                             userText += event.unicode
-                    print(userText)
-                    print(previousLetters)
+                    if event.key == pygame.K_RETURN:
+                        print(userText)
 
         pygame.display.update()
 
