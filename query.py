@@ -3,8 +3,8 @@ import os
 import string
 from math import log
 
-nltk.download('stopwords')
-nltk.download('punkt')
+# nltk.download('stopwords')
+# nltk.download('punkt')
 
 
 def main(query, dataFolder="Data", FILE_MATCH=1, SENT_MATCH=1):
