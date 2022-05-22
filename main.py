@@ -3,6 +3,8 @@ import sys
 from button import Button
 from query import answerQuery as aq
 import speech_recognition as sr
+import os
+import platform
 
 pygame.init()
 
@@ -39,6 +41,8 @@ def main():
     btnSearch = Button(WIDTH//4*3, HEIGHT//4, btnSearch, 0.8)
     btnQuit = Button(WIDTH//4*3, HEIGHT//8*7, btnQuit, 0.8)
     btnSearchVoice = Button(WIDTH//4*3, HEIGHT//2, btnSearchVoice, 0.8)
+    btnSolarSystem = Button(WIDTH//10, HEIGHT//4*3, btnSolarSystem, 0.8)
+    btnTrackISS = Button(WIDTH//5*3, HEIGHT//4*3, btnTrackISS, 0.8)
 
     # TEXT INPUT
     baseFont = pygame.font.Font(None, 40)
@@ -75,22 +79,21 @@ def main():
         if btnSearch.draw(SCREEN):
             spaceQuery(userText)
         if btnSearchVoice.draw(SCREEN):
-            voiceText = "Ask your question."
-
-            # DISPLAY VOICE INPUT
-            voiceColour = voiceActiveColour
-            pygame.draw.rect(SCREEN, voiceColour, voiceInputrect)
-            voiceTextSurface = baseFont.render(
-                voiceText, True, (255, 255, 255))
-            SCREEN.blit(voiceTextSurface,
-                        (voiceInputrect.x+5, voiceInputrect.y+5))
-            pygame.display.flip()
+            voiceActive = True
             searchVoice = True
+            voiceText = "Listening..."
+        if btnSolarSystem.draw(SCREEN):
+            return
+        if btnTrackISS.draw(SCREEN):
+            if platform.system() == "Windows":
+                os.system("python iss.py")
+            else:
+                os.system("python3 iss.py")
         if btnQuit.draw(SCREEN):
             pygame.quit()
             sys.exit()
 
-        # DISPLAY AND TYPE IN TEXT INPUT
+        # DISPLAY TEXT INPUT
         if active:
             colour = activeColour
         else:
@@ -101,13 +104,17 @@ def main():
         SCREEN.blit(textSurface, (inputRect.x+5, inputRect.y+5))
 
         # DISPLAY VOICE INPUT
-        voiceColour = voicePassiveColour
+        if voiceActive:
+            voiceColour = voiceActiveColour
+        else:
+            voiceColour = voicePassiveColour
         pygame.draw.rect(SCREEN, voiceColour, voiceInputrect)
         voiceTextSurface = baseFont.render(
             voiceText, True, (255, 255, 255))
         SCREEN.blit(voiceTextSurface, (voiceInputrect.x+5, voiceInputrect.y+5))
         pygame.display.flip()
 
+        # TEXT
         # Quits program if application is closed
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -138,8 +145,16 @@ def main():
                             userText += event.unicode
                     if event.key == pygame.K_RETURN:
                         spaceQuery(userText)
+
+            # VOICE
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if btnSearchVoice.rect.collidepoint(event.pos):
+                    voiceActive = True
+                else:
+                    voiceActive = False
+
             if searchVoice:
-                # variable for checking if the program did't cath the voice
+                # variable for checking if the program didn't catch the voice
                 correct = True
                 r = sr.Recognizer()
                 while correct:
@@ -147,14 +162,13 @@ def main():
                     with sr.Microphone() as source:
                         # listen for 1 second to calibrate the energy threshold for ambient noise levels
                         r.adjust_for_ambient_noise(source)
+                        # read the audio data from the default microphone, will record for 10 seconds
+                        # audio_data = r.record(source, duration=10)
                         audio_data = r.listen(source)
-                        correct = True
+                        # convert speech to text
                         try:
                             text = r.recognize_google(audio_data)
-                            voiceText = "Did you say: " + text
-
-                            # DISPLAY VOICE INPUT
-                            voiceColour = voicePassiveColour
+                            voiceText = text
                             pygame.draw.rect(
                                 SCREEN, voiceColour, voiceInputrect)
                             voiceTextSurface = baseFont.render(
@@ -163,28 +177,13 @@ def main():
                                 voiceTextSurface, (voiceInputrect.x+5, voiceInputrect.y+5))
                             pygame.display.flip()
 
-                            while correct:
-                                if btnSearchVoice.rect.collidepoint(event.pos):
-                                    spaceQuery(voiceText)
-                                elif background.rect.collidepoint(event.pos):
-                                    correct = False
-                                    raise Exception()
+                            spaceQuery(voiceText)
                         except:
-                            voiceText = "Sorry, I didn't get that. Try again."
-                            # DISPLAY VOICE INPUT
-                            voiceColour = voicePassiveColour
-                            pygame.draw.rect(
-                                SCREEN, voiceColour, voiceInputrect)
-                            voiceTextSurface = baseFont.render(
-                                voiceText, True, (255, 255, 255))
-                            SCREEN.blit(
-                                voiceTextSurface, (voiceInputrect.x+5, voiceInputrect.y+5))
-                            pygame.display.flip()
+                            voiceText = "Sorry, I didn't get that"
                             main()
-                searchVoice = False
 
-                # except sr.RequestError as e:
-                #print("Could not request results from Google Speech Recognition service; {0}".format(e))
+                        # except sr.RequestError as e:
+                        #print("Could not request results from Google Speech Recognition service; {0}".format(e))
 
         pygame.display.update()
 
