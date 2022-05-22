@@ -26,13 +26,14 @@ def main():
     titleRect.center = (WIDTH//2, HEIGHT//8)
 
     # BUTTONS
-    btnSpaceQuery = Button(WIDTH/4, HEIGHT/3*2, btnSpaceQuery, 0.8)
+    btnSpaceQuery = Button(WIDTH//4*3, HEIGHT//8*2, btnSpaceQuery, 0.8)
     btnQuit = Button(WIDTH/5*3, HEIGHT/3*2, btnQuit, 0.8)
 
     # TEXT INPUT
     baseFont = pygame.font.Font(None, 40)
-    userText = ''
-    inputRect = pygame.Rect(WIDTH//8, HEIGHT//4, 600, 50)
+    userText = ""
+    previousLetters = 0
+    inputRect = pygame.Rect(WIDTH//10, HEIGHT//8*2, 600, 50)
     activeColour = pygame.Color("cadetblue1")
     passiveColour = pygame.Color("blueviolet")
     colour = passiveColour
@@ -60,9 +61,10 @@ def main():
         else:
             colour = passiveColour
         pygame.draw.rect(SCREEN, colour, inputRect)
-        textSurface = baseFont.render(userText, True, (255, 255, 255))
+        textSurface = baseFont.render(
+            userText[previousLetters:], True, (255, 255, 255))
         SCREEN.blit(textSurface, (inputRect.x+5, inputRect.y+5))
-        inputRect.w = max(600, textSurface.get_width()+10)
+        inputRect.w = max(800, textSurface.get_width()+10)
         pygame.display.flip()
 
         # Quits program if application is closed
@@ -79,12 +81,26 @@ def main():
 
             if event.type == pygame.KEYDOWN:
                 if active == True:
-                    if event.key == pygame.K_BACKSPACE:
-                        userText = userText[:-1]
-                    elif event.key == pygame.K_RETURN:
-                        print(userText)
+
+                    if len(userText) >= 45:
+                        if event.key == pygame.K_BACKSPACE:
+                            userText = userText[:-1]
+                            if previousLetters > 0:
+                                previousLetters -= 1
+                        elif event.key == pygame.K_RETURN:
+                            print(userText)
+                        else:
+                            previousLetters += 1
+                            userText += event.unicode
                     else:
-                        userText += event.unicode
+                        if event.key == pygame.K_BACKSPACE:
+                            userText = userText[:-1]
+                        elif event.key == pygame.K_RETURN:
+                            print(userText)
+                        else:
+                            userText += event.unicode
+                    print(userText)
+                    print(previousLetters)
 
         pygame.display.update()
 
