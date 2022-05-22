@@ -3,8 +3,8 @@ import os
 import string
 from math import log
 
-# nltk.download('stopwords')
-# nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('punkt')
 
 
 def answerQuery(query, dataFolder="Data", FILE_MATCH=1, SENT_MATCH=1):
@@ -125,4 +125,4 @@ def topSentences(query, sentences, IDFS, n):
 
 
 if __name__ == "__main__":
-    print(main(input("Enter a query: "))[0])
+    print(answerQuery(input("Enter a query: "))[0])
