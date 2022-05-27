@@ -10,7 +10,7 @@ One of the main features is the search query. The user can enter a question they
 
 We have another feature that simulates the movement of planets based on the physics and the forces of gravity. We don't just make the planets circle the sun, instead the program calculate the force exerted on it by the sun and all other planets. Then based on this force exerted on the planet and its previous velocity. Look at [orbit.py](https://github.com/pjax42/Space-Query/blob/main/orbit.py) for how this is done. A thanks to techwithtim's Python Planet Simulation for guiding us in the creation of orbit.py.
 
-Lastly, we included a feature that informs users on where the iss is in live time (see [iss.py](https://github.com/pjax42/Space-Query/blob/main/iss.py)). If we had more time we would have liked to include some more features the help inform users about what is happening in space to bring more awareness to SPACE!
+Lastly, we included a feature that informs users on where the iss is in live time (see [iss.py](https://github.com/pjax42/Space-Query/blob/main/iss.py)). If we had more time we would have liked to include some more features the help inform users about what is happening in space to bring more awareness to OUTERSPACE!
 
 ## Useful links
 * [Devpost project](https://devpost.com/software/space-query)
