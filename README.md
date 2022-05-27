@@ -1,7 +1,7 @@
 # Space Query
 
 ## Our Project
-We created this project as part of the [hths.hacks() hackathon](https://hthshacks.com) on noon of May 21st to noon of May 22nd. The goal behind the project was to bring awareness to space by having information about it be readily accessible. With all our hard work we won an HONORABLE MENTION along with a $10 gift card to amazon. Look at page 13 of the (closing ceremony)[https://drive.google.com/file/d/10HsF1mEqYhr1Bk2i_YflnFwyqgEtTSkm/view] to see our names listed.
+We created this project as part of the [hths.hacks() hackathon](https://hthshacks.com) on noon of May 21st to noon of May 22nd. The goal behind the project was to bring awareness to space by having information about it be readily accessible. With all our hard work we won an HONORABLE MENTION along with a $10 gift card to amazon. Look at page 13 of the [closing ceremony](https://drive.google.com/file/d/10HsF1mEqYhr1Bk2i_YflnFwyqgEtTSkm/view) to see our names listed.
 
 ## What is the Space Query
 Space Query is a user friendly system that informs users about space (see [main.py](https://github.com/pjax42/Space-Query/blob/main/main.py) to see how we used pygame to do this).
